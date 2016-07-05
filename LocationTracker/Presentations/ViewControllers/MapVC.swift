@@ -28,14 +28,15 @@ class MapVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
         
-        setupLocation()
         setTapGestureOnPinLocation()
         setupPopview()
-
-        // setup mapView
+        
         mapView.delegate = self
         mapView.showsUserLocation = true
+        
+        setupLocation()
         
         self.view.addSubview(popupView)
         self.popupView.frame = CGRect(x: 0, y: screenSize.height, width: self.screenSize.width, height: 100)
@@ -44,16 +45,19 @@ class MapVC: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        mapView.showsUserLocation = true
+        
         checkLocationAuthorizationStatus()
     }
     
     // MARK: - PUBLIC
     
     func setupLocation() {
-        locationManager.startUpdatingLocation()
-        locationManager.startMonitoringSignificantLocationChanges()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startMonitoringSignificantLocationChanges()
+        locationManager.startUpdatingLocation()
+        locationManager.requestAlwaysAuthorization()
     }
     
     func setTapGestureOnPinLocation() {
@@ -170,7 +174,7 @@ class MapVC: UIViewController {
     }
 }
 
-extension MapVC: UIGestureRecognizerDelegate, MKMapViewDelegate, CLLocationManagerDelegate {
+extension MapVC: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locationManager.location!
@@ -181,4 +185,17 @@ extension MapVC: UIGestureRecognizerDelegate, MKMapViewDelegate, CLLocationManag
         mapView.setRegion(region, animated: true)
         getAddressByCoordinates(location)
     }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print("didFailWithError: \(error.description)")
+        let errorAlert = UIAlertController(title: "Error", message: "Failed to Get Your Location", preferredStyle: .Alert)
+        presentViewController(errorAlert, animated: true, completion: nil)
+    }
+}
+
+extension MapVC: MKMapViewDelegate {
+
+}
+
+extension MapVC: UIGestureRecognizerDelegate {
 }
