@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="127"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Address" translatesAutoresizingMaskIntoConstraints="NO" id="CjJ-kK-Ikc">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="scaleToFill" editable="NO" text="Address" translatesAutoresizingMaskIntoConstraints="NO" id="CjJ-kK-Ikc">
                     <rect key="frame" x="10" y="0.0" width="580" height="117"/>
                     <color key="backgroundColor" red="0.85571935811777466" green="1" blue="0.7305352739204527" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
