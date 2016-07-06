@@ -11,13 +11,20 @@ import UIKit
 class ShowAddressCustomView: UIView {
 
     @IBOutlet weak var addressTextView: UITextView!
-    
-    //var completion: ((text: String) -> ())?
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         
-//        addressTextView.text = completion?
-       // completion?(text: addressTextView.text)
+        addressTextView.layer.cornerRadius = 8.0
+        addressTextView.clipsToBounds = true
+        addressTextView.layer.borderColor = UIColor.greenColor().CGColor
+        addressTextView.layer.borderWidth = 2
+    }
+    
+    func setPopupOnView(yPosition: CGFloat, width: CGFloat) {
+        UIView.animateWithDuration(0.7, delay: 1.0, options: .CurveEaseOut, animations: {
+            self.addressTextView.frame = CGRect(x: 0, y: yPosition, width: width, height: 100)
+        }) { finished in
+        }
     }
 }

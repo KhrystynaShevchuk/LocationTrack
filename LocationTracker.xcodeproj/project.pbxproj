@@ -19,6 +19,8 @@
 		A9D35C1B1D26665700D32458 /* LocationTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D35C1A1D26665700D32458 /* LocationTrackerTests.swift */; };
 		A9D35C341D266AFF00D32458 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D35C321D266AFF00D32458 /* AppDelegate.swift */; };
 		A9D35C351D266AFF00D32458 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9D35C331D266AFF00D32458 /* Info.plist */; };
+		A9E3E7061D2CF8A2005C6DBE /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3E7051D2CF8A2005C6DBE /* UserLocation.swift */; };
+		A9E3E70A1D2D5C74005C6DBE /* AddressByCoordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3E7091D2D5C74005C6DBE /* AddressByCoordinates.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		A9D35C1C1D26665700D32458 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9D35C321D266AFF00D32458 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A9D35C331D266AFF00D32458 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9E3E7051D2CF8A2005C6DBE /* UserLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserLocation.swift; path = LocationTracker/Extensions/UserLocation.swift; sourceTree = SOURCE_ROOT; };
+		A9E3E7091D2D5C74005C6DBE /* AddressByCoordinates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressByCoordinates.swift; path = LocationTracker/Extensions/AddressByCoordinates.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +179,8 @@
 		A9D35C361D266B7300D32458 /* DataLayer */ = {
 			isa = PBXGroup;
 			children = (
+				A9E3E7051D2CF8A2005C6DBE /* UserLocation.swift */,
+				A9E3E7091D2D5C74005C6DBE /* AddressByCoordinates.swift */,
 				A9D35C371D266B7300D32458 /* Models */,
 			);
 			path = DataLayer;
@@ -292,7 +298,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9E3E70A1D2D5C74005C6DBE /* AddressByCoordinates.swift in Sources */,
 				A913E5291D2A7D4E0074BAD5 /* ShowAddressCustomView.swift in Sources */,
+				A9E3E7061D2CF8A2005C6DBE /* UserLocation.swift in Sources */,
 				A9D35C341D266AFF00D32458 /* AppDelegate.swift in Sources */,
 				A90E5C381D2A5BE90044BE8D /* MapVC.swift in Sources */,
 			);

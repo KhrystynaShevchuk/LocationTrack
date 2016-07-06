@@ -17,6 +17,9 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                     <dataDetectorType key="dataDetectorTypes" address="YES"/>
+                    <connections>
+                        <outlet property="delegate" destination="i5M-Pr-FkT" id="Ldt-s6-5rO"/>
+                    </connections>
                 </textView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
