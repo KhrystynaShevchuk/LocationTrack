@@ -14,77 +14,113 @@ class MapVC: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
-    var userLocation = UserLocation()
-    var addressByCoordinates = AddressByCoordinates()
-    var popupView = ShowAddressCustomView()
+    //    var addressByCoordinates = AddressByCoordinates()
+    var popupView: ShowAddressCustomView!
     let screenSize = UIScreen.mainScreen().bounds
     var yPosition : CGFloat = 0
+    
+    
+    //MARK: vc life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapView.delegate = self
-        userLocation.setupLocation()
-        mapView.showsUserLocation = true
-        setTapGestureOnPinLocation()
+        setup()
         
-        
-        self.view.addSubview(popupView)
-        popupView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 100)
+        setupUserLocation()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        mapView.showsUserLocation = true
-        
         checkLocationAuthorizationStatus()
     }
-    func handleTap(gestureRecognizer: UILongPressGestureRecognizer) {
-        _ = gestureRecognizer.locationInView(mapView)
-        if
-            userLocation.locationManager.location != nil {
-            makePopupViewVisible(true, mapView: mapView)
+    
+    
+    //MARK : setup
+    
+    private func setup() {
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        setTapGestureOnPinLocation()
+        
+        popupView = ShowAddressCustomView()
+        popupView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 100)
+        self.view.addSubview(popupView)
+        self.view.bringSubviewToFront(popupView)
+    }
+    
+    private func setupUserLocation() {
+        //        UserLocation.sharedInstance.locationDidUpdateHandler = { location in
+        //            print("location = \(location)")
+        //            self.updateMapCurrentLocation(location)
+        //        }
+        UserLocation.sharedInstance.locationDidUpdateHandler = updateMapCurrentLocation
+    }
+    
+    private func checkLocationAuthorizationStatus() {
+        if UserLocation.sharedInstance.isAuthorized {
+            mapView.showsUserLocation = true
         } else {
-            makePopupViewVisible(false, mapView: mapView)
+            UserLocation.sharedInstance.requestForAuthorization()
         }
+    }
+    
+    
+    //MARK: gestures - setup
+    
+    private func setTapGestureOnPinLocation() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(MapVC.handleTap(_:)))
+        mapView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    private func setTapGestureOnPopup() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(MapVC.tapPopupToHide(_:)))
+        popupView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    
+    //MARK: gesture actions
+    
+    func handleTap(gestureRecognizer: UILongPressGestureRecognizer) {
+//        _ = gestureRecognizer.locationInView(mapView)
+        if UserLocation.sharedInstance.currentLocation != nil {
+            makePopupViewVisible(true)
+        } else {
+            makePopupViewVisible(false)
+        }
+        //        let visible = UserLocation.sharedInstance.currentLocation != nil
+        //        makePopupViewVisible(visible)
     }
     
     func tapPopupToHide(gestureReconizer: UILongPressGestureRecognizer) {
         _ = gestureReconizer.locationInView(popupView)
-        makePopupViewVisible(false, mapView: mapView)
+        makePopupViewVisible(false)
     }
     
-    func setTapGestureOnPinLocation() {
-        let gestureRecognizer = UITapGestureRecognizer(target: userLocation.locationManager, action:#selector(MapVC.handleTap(_:)))
-        gestureRecognizer.delegate = self
-        mapView.addGestureRecognizer(gestureRecognizer)
-    }
-    
-    func setTapGestureOnPopup() {
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(MapVC.tapPopupToHide(_:)))
-        gestureRecognizer.delegate = self
-        popupView.addGestureRecognizer(gestureRecognizer)
-    }
-    
-        func checkLocationAuthorizationStatus() {
-            if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
-                mapView.showsUserLocation = true
-            } else {
-                userLocation.locationManager.requestAlwaysAuthorization()
-            }
-        }
     
     // MARK: - PRIVATE
     
     // set popup, popup visibility
-    private func makePopupViewVisible(isViewVisible: Bool, mapView: MKMapView) {
-        if isViewVisible == true {
-            self.popupView.addressTextView.text = addressByCoordinates.currentAddress
-            yPosition = screenSize.height - 110
-            popupView.setPopupOnView(yPosition, width: screenSize.width)
-            setTapGestureOnPopup()
-            
+    private func makePopupViewVisible(isViewVisible: Bool) {
+        if isViewVisible {
+            guard let location = UserLocation.sharedInstance.currentLocation else {
+                //???
+                return
+            }
+            AddressByCoordinates.sharedInstance.getAddressByCoordinates(location, completion: { (address) in
+                
+                self.popupView.addressTextView.text = address
+                self.yPosition = self.screenSize.height - 110
+                self.popupView.setPopupOnView(self.yPosition, width: self.screenSize.width)
+                self.setTapGestureOnPopup()
+                self.view.bringSubviewToFront(self.popupView)
+            })
+//            //            self.popupView.addressTextView.text = addressByCoordinates.currentAddress
+//            yPosition = screenSize.height - 110
+//            //            yPosition = screenSize.height - popupView.frame.height
+//            popupView.setPopupOnView(yPosition, width: screenSize.width)
+//            setTapGestureOnPopup()
         } else {
             yPosition = screenSize.height
             popupView.setPopupOnView(yPosition, width: screenSize.width)
@@ -92,21 +128,26 @@ class MapVC: UIViewController {
         }
     }
     
-    func getAddressBy(location: CLLocation) {
-        let location = userLocation.locationManager.location!
-        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        let span = MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)
-        let region = MKCoordinateRegion(center: center, span: span)
-        mapView.setRegion(region, animated: true)
-        
-        addressByCoordinates.getAddressByCoordinates(location)
+    private func updateMapCurrentLocation(location: CLLocation?) {
+        if let location = location {
+            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            let span = MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)
+            let region = MKCoordinateRegion(center: center, span: span)
+            mapView.setRegion(region, animated: true)
+        }
     }
+    
+    //    func getAddressBy(location: CLLocation) {
+    //        let location = UserLocation.sharedInstance.currentLocation
+    //        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+    //        let span = MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)
+    //        let region = MKCoordinateRegion(center: center, span: span)
+    //        mapView.setRegion(region, animated: true)
+    //
+    //        addressByCoordinates.getAddressByCoordinates(location)
+    //    }
 }
 
 extension MapVC: MKMapViewDelegate {
-    
-}
-
-extension MapVC: UIGestureRecognizerDelegate {
     
 }

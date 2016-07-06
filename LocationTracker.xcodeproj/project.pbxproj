@@ -73,6 +73,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		647FA17D1D2D9FE900C8D8A4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A90E5C331D2A4F260044BE8D /* CoreLocation.framework */,
+				A90E5C351D2A51280044BE8D /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A913E5261D2A7B660074BAD5 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,8 +101,7 @@
 		A9D35BF91D26665700D32458 = {
 			isa = PBXGroup;
 			children = (
-				A90E5C351D2A51280044BE8D /* MapKit.framework */,
-				A90E5C331D2A4F260044BE8D /* CoreLocation.framework */,
+				647FA17D1D2D9FE900C8D8A4 /* Frameworks */,
 				A90E5C311D2A4CCD0044BE8D /* Default-568h@2x.png */,
 				A9D35C041D26665700D32458 /* LocationTracker */,
 				A9D35C191D26665700D32458 /* LocationTrackerTests */,
