@@ -8,6 +8,7 @@
 
 import UIKit
 
+@IBDesignable
 class ShowAddressCustomView: UIView {
     private var view: UIView! //root view - needs in case it loads(creates) from code
 
@@ -28,7 +29,7 @@ class ShowAddressCustomView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        setup()
+//        setup()
     }
     
     
@@ -64,7 +65,7 @@ class ShowAddressCustomView: UIView {
     
     func setPopupOnView(yPosition: CGFloat, width: CGFloat) {
         UIView.animateWithDuration(0.7, delay: 1.0, options: .CurveEaseOut, animations: {
-//            self.addressTextView.frame = CGRect(x: 0, y: yPosition, width: width, height: 100)
+
             self.frame = CGRect(x: 0, y: yPosition, width: width, height: 100)
         }) { finished in
         }

@@ -14,8 +14,7 @@ class MapVC: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
-    //    var addressByCoordinates = AddressByCoordinates()
-    var popupView: ShowAddressCustomView!
+    var popupView = ShowAddressCustomView()
     let screenSize = UIScreen.mainScreen().bounds
     var yPosition : CGFloat = 0
     
@@ -44,18 +43,29 @@ class MapVC: UIViewController {
         mapView.showsUserLocation = true
         setTapGestureOnPinLocation()
         
-        popupView = ShowAddressCustomView()
         popupView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 100)
         self.view.addSubview(popupView)
         self.view.bringSubviewToFront(popupView)
     }
     
     private func setupUserLocation() {
-        //        UserLocation.sharedInstance.locationDidUpdateHandler = { location in
-        //            print("location = \(location)")
+        
+        //        UserLocation.sharedInstance.locationDidUpdateHandler = updateMapCurrentLocation
+        //        UserLocation.sharedInstance.addLocationUpdateHandler({ location in
         //            self.updateMapCurrentLocation(location)
-        //        }
-        UserLocation.sharedInstance.locationDidUpdateHandler = updateMapCurrentLocation
+        //        })
+        //        UserLocation.sharedInstance.addLocationUpdateHandler(updateMapCurrentLocation)
+        
+        //        UserLocation.sharedInstance.addlocationDidFailHandler { (error) in
+        
+        //        UserLocation.sharedInstance.addUpdateHandler(updateMapCurrentLocation, failHandler: {
+        //            error in
+        //
+        //        })
+        UserLocation.sharedInstance.addObserver(self, updateHandler: updateMapCurrentLocation, failHandler: {
+            error in
+            
+        })
     }
     
     private func checkLocationAuthorizationStatus() {
@@ -83,14 +93,13 @@ class MapVC: UIViewController {
     //MARK: gesture actions
     
     func handleTap(gestureRecognizer: UILongPressGestureRecognizer) {
-//        _ = gestureRecognizer.locationInView(mapView)
-        if UserLocation.sharedInstance.currentLocation != nil {
-            makePopupViewVisible(true)
-        } else {
-            makePopupViewVisible(false)
-        }
-        //        let visible = UserLocation.sharedInstance.currentLocation != nil
-        //        makePopupViewVisible(visible)
+        //        if UserLocation.sharedInstance.currentLocation != nil {
+        //            makePopupViewVisible(true)
+        //        } else {
+        //            makePopupViewVisible(false)
+        //        }
+        let visible = (UserLocation.sharedInstance.currentLocation != nil)
+        makePopupViewVisible(visible)
     }
     
     func tapPopupToHide(gestureReconizer: UILongPressGestureRecognizer) {
@@ -105,22 +114,17 @@ class MapVC: UIViewController {
     private func makePopupViewVisible(isViewVisible: Bool) {
         if isViewVisible {
             guard let location = UserLocation.sharedInstance.currentLocation else {
-                //???
                 return
             }
             AddressByCoordinates.sharedInstance.getAddressByCoordinates(location, completion: { (address) in
                 
-                self.popupView.addressTextView.text = address
+                self.popupView.addressTextView.text = address.toString
                 self.yPosition = self.screenSize.height - 110
                 self.popupView.setPopupOnView(self.yPosition, width: self.screenSize.width)
                 self.setTapGestureOnPopup()
                 self.view.bringSubviewToFront(self.popupView)
             })
-//            //            self.popupView.addressTextView.text = addressByCoordinates.currentAddress
-//            yPosition = screenSize.height - 110
-//            //            yPosition = screenSize.height - popupView.frame.height
-//            popupView.setPopupOnView(yPosition, width: screenSize.width)
-//            setTapGestureOnPopup()
+            
         } else {
             yPosition = screenSize.height
             popupView.setPopupOnView(yPosition, width: screenSize.width)
@@ -136,16 +140,6 @@ class MapVC: UIViewController {
             mapView.setRegion(region, animated: true)
         }
     }
-    
-    //    func getAddressBy(location: CLLocation) {
-    //        let location = UserLocation.sharedInstance.currentLocation
-    //        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-    //        let span = MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)
-    //        let region = MKCoordinateRegion(center: center, span: span)
-    //        mapView.setRegion(region, animated: true)
-    //
-    //        addressByCoordinates.getAddressByCoordinates(location)
-    //    }
 }
 
 extension MapVC: MKMapViewDelegate {
