@@ -24,10 +24,10 @@ class AddressByCoordinates {
     
     static var sharedInstance: AddressByCoordinates {
         struct Static {
-            static var sharedInstance: AddressByCoordinates?
-            static var token: dispatch_once_t = 0
+            static var sharedInstance: AddressByCoordinates?  // places reference of current singletone
+            static var token: dispatch_once_t = 0   // gives guarantee of only one initialisation (dispatch_once_t = 0)
         }
-        dispatch_once(&Static.token) {
+        dispatch_once(&Static.token) {  // set value just once
             Static.sharedInstance = AddressByCoordinates()
         }
         return Static.sharedInstance!

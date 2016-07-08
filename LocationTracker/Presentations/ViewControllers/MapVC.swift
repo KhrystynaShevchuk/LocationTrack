@@ -62,10 +62,16 @@ class MapVC: UIViewController {
         //            error in
         //
         //        })
-        UserLocation.sharedInstance.addObserver(self, updateHandler: updateMapCurrentLocation, failHandler: {
-            error in
-            
-        })
+//        UserLocation.sharedInstance.addObserver(self, updateHandler: updateMapCurrentLocation, failHandler: {
+//            error in
+//            
+//        })
+        
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector:#selector(MapVC.updateLocationBecauseNotification(_:)), name: "locationUpdate", object: nil)
+        
+        UserLocation.sharedInstance.addUpdateLocationObserver(self, selector: #selector(MapVC.updateLocationBecauseNotification(_:)))
+        
+        UserLocation.sharedInstance.addErrorObserver(self, selector: #selector(MapVC.errorNotification(_:)))
     }
     
     private func checkLocationAuthorizationStatus() {
@@ -105,6 +111,22 @@ class MapVC: UIViewController {
     func tapPopupToHide(gestureReconizer: UILongPressGestureRecognizer) {
         _ = gestureReconizer.locationInView(popupView)
         makePopupViewVisible(false)
+    }
+    
+    func updateLocationBecauseNotification(notification: NSNotification) {
+        let userInfo:Dictionary<String,CLLocation!> = notification.userInfo as! Dictionary<String,CLLocation!>
+        let location = userInfo["location"]
+        updateMapCurrentLocation(location)
+    }
+    
+    func errorNotification(notification: NSNotification) {
+        let userInfo:Dictionary<String,NSError!> = notification.userInfo as! Dictionary<String,NSError!>
+        let error = userInfo["error"]
+        errorOfGettingLocation(error!)
+    }
+    
+    func errorOfGettingLocation(error: NSError) {
+        return 
     }
     
     

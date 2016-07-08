@@ -12,6 +12,9 @@ import CoreLocation
 typealias LocationUpdateHandler = (location: CLLocation?)->Void
 typealias LocationDidFailHandler = (error: NSError)->Void
 
+let NOTIFICATION_UPDATE_LICATION = "locationUpdate"
+let NOTIFICATION_ERROR = "error"
+
 class UserLocation: NSObject {
     
     private struct Handlers {
@@ -31,16 +34,16 @@ class UserLocation: NSObject {
     }
     
     //    static var sharedInstance = UserLocation()
-
+    
     
     private let locationManager = CLLocationManager()
     
     
-//    var locationDidUpdateHandler: ((location: CLLocation?)->Void)?
-//    var locationDidFailHandler: ((error: NSError)->Void)?
+    //    var locationDidUpdateHandler: ((location: CLLocation?)->Void)?
+    //    var locationDidFailHandler: ((error: NSError)->Void)?
     
-//    var locationDidUpdateHandlers = [NSObject : LocationUpdateHandler]()
-//    var locationDidFailHandlers = [NSObject : LocationDidFailHandler]()
+    //    var locationDidUpdateHandlers = [NSObject : LocationUpdateHandler]()
+    //    var locationDidFailHandlers = [NSObject : LocationDidFailHandler]()
     
     private var locationHandlers = [NSObject : Handlers]()
     
@@ -61,35 +64,48 @@ class UserLocation: NSObject {
     }
     
     
-//    func addLocationUpdateHandler(handler: LocationUpdateHandler) {
-//        locationDidUpdateHandlers.append(handler)
-//    }
-//    
-//    func addlocationDidFailHandler(handler: LocationDidFailHandler) {
-//        locationDidFailHandlers.append(handler)
-//    }
-
-    func addObserver(observer: NSObject, updateHandler: LocationUpdateHandler, failHandler: LocationDidFailHandler? = nil) {
-//        locationDidUpdateHandlers.append([observer : updateHandler])
-//        locationDidUpdateHandlers[observer] = updateHandler
-//        if let failHandler = failHandler {
-//            locationDidFailHandlers.append([observer : failHandler])
-//            locationDidFailHandlers[observer] = failHandler
-//        }
-        let handlers = Handlers(locationUpdateHandler: updateHandler, locationDidFailHandler: failHandler)
-        locationHandlers[observer] = handlers
+    //    func addLocationUpdateHandler(handler: LocationUpdateHandler) {
+    //        locationDidUpdateHandlers.append(handler)
+    //    }
+    //
+    //    func addlocationDidFailHandler(handler: LocationDidFailHandler) {
+    //        locationDidFailHandlers.append(handler)
+    //    }
+    
+    //    func addObserver(observer: NSObject, updateHandler: LocationUpdateHandler, failHandler: LocationDidFailHandler? = nil) {
+    ////        locationDidUpdateHandlers.append([observer : updateHandler])
+    ////        locationDidUpdateHandlers[observer] = updateHandler
+    ////        if let failHandler = failHandler {
+    ////            locationDidFailHandlers.append([observer : failHandler])
+    ////            locationDidFailHandlers[observer] = failHandler
+    ////        }
+    //        let handlers = Handlers(locationUpdateHandler: updateHandler, locationDidFailHandler: failHandler)
+    //        locationHandlers[observer] = handlers
+    //    }
+    
+    //    func removeHandlersForObserver(observer: NSObject) {  // how to remove handler from dictionary of handlers
+    ////        locationDidUpdateHandlers.removeValueForKey(observer)
+    ////        locationDidFailHandlers.removeValueForKey(observer)
+    //        locationHandlers.removeValueForKey(observer)
+    //    }
+    
+    func addUpdateLocationObserver(observer: AnyObject, selector aSelector: Selector) {
+        NSNotificationCenter.defaultCenter().addObserver(observer,
+                                                         selector: aSelector,
+                                                         name: NOTIFICATION_UPDATE_LICATION,
+                                                         object: self)
     }
     
-    func removeHandlersForObserver(observer: NSObject) {
-//        locationDidUpdateHandlers.removeValueForKey(observer)
-//        locationDidFailHandlers.removeValueForKey(observer)
-        locationHandlers.removeValueForKey(observer)
+    func addErrorObserver(observer: AnyObject, selector aSelector: Selector) {
+        NSNotificationCenter.defaultCenter().addObserver(observer,
+                                                         selector: aSelector,
+                                                         name: NOTIFICATION_ERROR,
+                                                         object: self)
     }
     
     func setupLocation() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
         requestForAuthorization()
         
         locationManager.startMonitoringSignificantLocationChanges()
@@ -105,24 +121,27 @@ extension UserLocation: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-//        locationDidUpdateHandler?(location: currentLocation)
-//        for (_, handler) in locationDidUpdateHandlers {
-//            handler(location: currentLocation)
-//        }
-        for (_, handlers) in locationHandlers {
-            handlers.locationUpdateHandler(location: currentLocation)
-        }
+        //        locationDidUpdateHandler?(location: currentLocation)
+        //        for (_, handler) in locationDidUpdateHandlers {
+        //            handler(location: currentLocation)
+        //        }
+        //        for (_, handlers) in locationHandlers {
+        //            handlers.locationUpdateHandler(location: currentLocation)
+        //        }
+        NSNotificationCenter.defaultCenter().postNotificationName(NOTIFICATION_UPDATE_LICATION, object: self,
+                                                                  userInfo: ["location" : currentLocation!])
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         print("didFailWithError: \(error.description)")
         
-//        locationDidFailHandler?(error: error)
-//        for (_, handler) in locationDidFailHandlers {
-//            handler(error: error)
+        //        locationDidFailHandler?(error: error)
+        //        for (_, handler) in locationDidFailHandlers {
+        //            handler(error: error)
+        //        }
+//        for (_, handlers) in locationHandlers {
+//            handlers.locationDidFailHandler?(error: error)
 //        }
-        for (_, handlers) in locationHandlers {
-            handlers.locationDidFailHandler?(error: error)
-        }
+        NSNotificationCenter.defaultCenter().postNotificationName(NOTIFICATION_ERROR, object: self, userInfo: ["error" : error])
     }
 }

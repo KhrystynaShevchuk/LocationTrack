@@ -14,22 +14,16 @@ class ShowAddressCustomView: UIView {
 
     @IBOutlet weak var addressTextView: UITextView!
     
-    override init(frame: CGRect) {
+    override init(frame: CGRect) {  // for using CustomView in code
         super.init(frame: frame)
         
         xibSetup()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {   // for using CustomView in IB
         super.init(coder: aDecoder)
         
         xibSetup()
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-//        setup()
     }
     
     
@@ -41,6 +35,7 @@ class ShowAddressCustomView: UIView {
         
         // Make the view stretch with containing view
         view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+        
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(view)
         
@@ -63,7 +58,7 @@ class ShowAddressCustomView: UIView {
         addressTextView.layer.borderWidth = 2
     }
     
-    func setPopupOnView(yPosition: CGFloat, width: CGFloat) {
+    func setPopupOnView(yPosition: CGFloat, width: CGFloat) { // set it in VC
         UIView.animateWithDuration(0.7, delay: 1.0, options: .CurveEaseOut, animations: {
 
             self.frame = CGRect(x: 0, y: yPosition, width: width, height: 100)
