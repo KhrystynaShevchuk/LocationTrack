@@ -18,15 +18,13 @@ class MapVC: UIViewController {
     let screenSize = UIScreen.mainScreen().bounds
     var yPosition : CGFloat = 0
     
-    
-    //MARK: vc life cycle
+    //MARK: - VC life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
-        
-        setupUserLocation()
+        subscribeToNotifications()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -35,43 +33,21 @@ class MapVC: UIViewController {
         checkLocationAuthorizationStatus()
     }
     
-    
-    //MARK : setup
+    //MARK: - setup
     
     private func setup() {
-        mapView.delegate = self
         mapView.showsUserLocation = true
         setTapGestureOnPinLocation()
         
         popupView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 100)
-        self.view.addSubview(popupView)
-        self.view.bringSubviewToFront(popupView)
+        view.addSubview(popupView)
+        view.bringSubviewToFront(popupView)
     }
     
-    private func setupUserLocation() {
-        
-        //        UserLocation.sharedInstance.locationDidUpdateHandler = updateMapCurrentLocation
-        //        UserLocation.sharedInstance.addLocationUpdateHandler({ location in
-        //            self.updateMapCurrentLocation(location)
-        //        })
-        //        UserLocation.sharedInstance.addLocationUpdateHandler(updateMapCurrentLocation)
-        
-        //        UserLocation.sharedInstance.addlocationDidFailHandler { (error) in
-        
-        //        UserLocation.sharedInstance.addUpdateHandler(updateMapCurrentLocation, failHandler: {
-        //            error in
-        //
-        //        })
-//        UserLocation.sharedInstance.addObserver(self, updateHandler: updateMapCurrentLocation, failHandler: {
-//            error in
-//            
-//        })
-        
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector:#selector(MapVC.updateLocationBecauseNotification(_:)), name: "locationUpdate", object: nil)
-        
-        UserLocation.sharedInstance.addUpdateLocationObserver(self, selector: #selector(MapVC.updateLocationBecauseNotification(_:)))
-        
-        UserLocation.sharedInstance.addErrorObserver(self, selector: #selector(MapVC.errorNotification(_:)))
+    private func subscribeToNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapVC.distanceWarning(_:)), name: NOTIFICATION_TRACK_DISTANCE, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapVC.updateUserLocation(_:)), name: NOTIFICATION_UPDATE_LOCATION, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapVC.errorNotification(_:)), name: NOTIFICATION_ERROR, object: nil)
     }
     
     private func checkLocationAuthorizationStatus() {
@@ -82,8 +58,7 @@ class MapVC: UIViewController {
         }
     }
     
-    
-    //MARK: gestures - setup
+    //MARK: - gestures - setup
     
     private func setTapGestureOnPinLocation() {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(MapVC.handleTap(_:)))
@@ -95,15 +70,9 @@ class MapVC: UIViewController {
         popupView.addGestureRecognizer(gestureRecognizer)
     }
     
-    
-    //MARK: gesture actions
+    //MARK: - gesture actions
     
     func handleTap(gestureRecognizer: UILongPressGestureRecognizer) {
-        //        if UserLocation.sharedInstance.currentLocation != nil {
-        //            makePopupViewVisible(true)
-        //        } else {
-        //            makePopupViewVisible(false)
-        //        }
         let visible = (UserLocation.sharedInstance.currentLocation != nil)
         makePopupViewVisible(visible)
     }
@@ -113,22 +82,39 @@ class MapVC: UIViewController {
         makePopupViewVisible(false)
     }
     
-    func updateLocationBecauseNotification(notification: NSNotification) {
+    // MARK: - Notifications
+    
+    func updateUserLocation(notification: NSNotification) {
         let userInfo:Dictionary<String,CLLocation!> = notification.userInfo as! Dictionary<String,CLLocation!>
         let location = userInfo["location"]
         updateMapCurrentLocation(location)
     }
     
     func errorNotification(notification: NSNotification) {
-        let userInfo:Dictionary<String,NSError!> = notification.userInfo as! Dictionary<String,NSError!>
-        let error = userInfo["error"]
-        errorOfGettingLocation(error!)
+
+        let alert = UIAlertController(title: "Error!", message: "It is impossible to get your location.", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        
+        presentViewController(alert, animated: true, completion: nil)
     }
     
-    func errorOfGettingLocation(error: NSError) {
-        return 
+    func distanceWarning(notification: NSNotification) {
+        let alert = UIAlertController(title: "Warning!", message: "You are far from your start location more than 3 meters.", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
+    private func updateMapCurrentLocation(location: CLLocation?) {
+        guard let location = location else {
+            return
+        }
+        
+        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        let region = MKCoordinateRegion(center: center, span: span)
+        mapView.setRegion(region, animated: true)
+    }
     
     // MARK: - PRIVATE
     
@@ -138,7 +124,7 @@ class MapVC: UIViewController {
             guard let location = UserLocation.sharedInstance.currentLocation else {
                 return
             }
-            AddressByCoordinates.sharedInstance.getAddressByCoordinates(location, completion: { (address) in
+            UserLocation.sharedInstance.getAddressByCoordinates(location, completion: { (address) in
                 
                 self.popupView.addressTextView.text = address.toString
                 self.yPosition = self.screenSize.height - 110
@@ -154,16 +140,7 @@ class MapVC: UIViewController {
         }
     }
     
-    private func updateMapCurrentLocation(location: CLLocation?) {
-        if let location = location {
-            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            let span = MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)
-            let region = MKCoordinateRegion(center: center, span: span)
-            mapView.setRegion(region, animated: true)
-        }
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-}
-
-extension MapVC: MKMapViewDelegate {
-    
 }

@@ -10,22 +10,25 @@ import UIKit
 
 @IBDesignable
 class ShowAddressCustomView: UIView {
-    private var view: UIView! //root view - needs in case it loads(creates) from code
+    
+    // Root view - needs in case it loads(creates) from code
+    private var view: UIView!
 
     @IBOutlet weak var addressTextView: UITextView!
     
-    override init(frame: CGRect) {  // for using CustomView in code
+    // For using CustomView in code
+    override init(frame: CGRect) {
         super.init(frame: frame)
         
         xibSetup()
     }
     
-    required init?(coder aDecoder: NSCoder) {   // for using CustomView in IB
+    // For using CustomView in IB
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         xibSetup()
     }
-    
     
     private func xibSetup() {
         view = loadViewFromNib("ShowAddressCustomView")
@@ -49,7 +52,6 @@ class ShowAddressCustomView: UIView {
         
         return view
     }
-    
     
     private func setup() {
         addressTextView.layer.cornerRadius = 8.0
