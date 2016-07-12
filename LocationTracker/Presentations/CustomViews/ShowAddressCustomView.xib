@@ -7,7 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShowAddressCustomView" customModule="LocationTracker" customModuleProvider="target">
             <connections>
-                <outlet property="addressTextView" destination="CjJ-kK-Ikc" id="1xk-Oi-HwG"/>
+                <outlet property="addressTextView" destination="CjJ-kK-Ikc" id="eGf-NE-OHB"/>
+                <outlet property="backgroundView" destination="1Pz-Ah-Yrw" id="p0C-xb-TYf"/>
+                <outlet property="iconImageView" destination="vKO-hd-tN9" id="xWA-fy-RQz"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -15,32 +17,55 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="127"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="scaleToFill" editable="NO" text="Address" translatesAutoresizingMaskIntoConstraints="NO" id="CjJ-kK-Ikc">
-                    <rect key="frame" x="10" y="0.0" width="580" height="117"/>
-                    <color key="backgroundColor" red="0.85571935811777466" green="1" blue="0.7305352739204527" alpha="1" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
-                    <dataDetectorType key="dataDetectorTypes" address="YES"/>
-                    <connections>
-                        <outlet property="delegate" destination="i5M-Pr-FkT" id="Ldt-s6-5rO"/>
-                    </connections>
-                </textView>
+                <view alpha="0.94999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Pz-Ah-Yrw">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="127"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vKO-hd-tN9">
+                            <rect key="frame" x="273" y="0.0" width="55" height="55"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="55" id="tTm-BK-xOW"/>
+                                <constraint firstAttribute="width" constant="55" id="vIB-ts-emf"/>
+                            </constraints>
+                        </imageView>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CjJ-kK-Ikc">
+                            <rect key="frame" x="0.0" y="52" width="600" height="75"/>
+                            <color key="backgroundColor" red="0.92950857354784544" green="1" blue="0.83412357755937294" alpha="0.89320146276595747" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
+                            <dataDetectorType key="dataDetectorTypes" address="YES"/>
+                            <connections>
+                                <outlet property="delegate" destination="i5M-Pr-FkT" id="Ldt-s6-5rO"/>
+                            </connections>
+                        </textView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="vKO-hd-tN9" firstAttribute="centerX" secondItem="CjJ-kK-Ikc" secondAttribute="centerX" id="K7k-Bs-HgR"/>
+                        <constraint firstItem="CjJ-kK-Ikc" firstAttribute="leading" secondItem="1Pz-Ah-Yrw" secondAttribute="leading" id="W7q-78-LEB"/>
+                        <constraint firstItem="vKO-hd-tN9" firstAttribute="top" secondItem="1Pz-Ah-Yrw" secondAttribute="top" id="Yd2-pd-cOj"/>
+                        <constraint firstAttribute="bottom" secondItem="CjJ-kK-Ikc" secondAttribute="bottom" id="ZmH-13-PEy"/>
+                        <constraint firstItem="CjJ-kK-Ikc" firstAttribute="top" secondItem="1Pz-Ah-Yrw" secondAttribute="top" constant="52" id="peW-za-QfU"/>
+                        <constraint firstItem="CjJ-kK-Ikc" firstAttribute="centerX" secondItem="1Pz-Ah-Yrw" secondAttribute="centerX" id="xWg-7h-Oqr"/>
+                        <constraint firstAttribute="trailing" secondItem="CjJ-kK-Ikc" secondAttribute="trailing" id="xq5-Fh-4bW"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <accessibility key="accessibilityConfiguration">
                 <bool key="isElement" value="YES"/>
             </accessibility>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="CjJ-kK-Ikc" secondAttribute="bottom" constant="10" id="62n-zO-FWA"/>
-                <constraint firstItem="CjJ-kK-Ikc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="dGa-Pb-frE"/>
-                <constraint firstItem="CjJ-kK-Ikc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="uB3-AU-45p"/>
-                <constraint firstAttribute="trailing" secondItem="CjJ-kK-Ikc" secondAttribute="trailing" constant="10" id="ubH-6m-FI7"/>
+                <constraint firstItem="1Pz-Ah-Yrw" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="4fi-UT-JQd"/>
+                <constraint firstAttribute="bottom" secondItem="1Pz-Ah-Yrw" secondAttribute="bottom" id="RVU-iq-D4e"/>
+                <constraint firstItem="1Pz-Ah-Yrw" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="gbs-uL-PGv"/>
+                <constraint firstItem="1Pz-Ah-Yrw" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xav-fw-3Wu"/>
+                <constraint firstAttribute="trailing" secondItem="1Pz-Ah-Yrw" secondAttribute="trailing" id="xuB-fO-car"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="342" y="488.5"/>
+            <point key="canvasLocation" x="452" y="413.5"/>
         </view>
     </objects>
 </document>

@@ -24,13 +24,16 @@ class Address {
     
     var toString: String {
         var currentAddress = ""
-        currentAddress += "STREET :  \(street ?? "")\n"
-        currentAddress += "CITY :    \(city ?? "")\n"
-        currentAddress += "COUNTRY :    \(country ?? "")\n"
-        currentAddress += "COUNTRY CODE :  \(countryCode ?? "")\n"
-        currentAddress += UserLocation.sharedInstance.coordinates
-        currentAddress += "Distance =  \(UserLocation.sharedInstance.distance)"
+        if street != nil && city != nil {
+            currentAddress += "STREET :  \(street ?? "")\n"
+            currentAddress += "CITY :    \(city ?? "")\n"
+            currentAddress += "COUNTRY :    \(country ?? "")\n"
+            currentAddress += "COUNTRY CODE :  \(countryCode ?? "")\n"
+            currentAddress += UserLocation.sharedInstance.coordinates
+            currentAddress += "Distance restriction =  \(UserLocation.sharedInstance.distanceRestriction)"
+        } else {
+            currentAddress += "It is impossible to detect address\nby selected location."
+        }
         return currentAddress
     }
-    
 }

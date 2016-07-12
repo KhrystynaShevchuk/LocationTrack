@@ -17,6 +17,7 @@
 		A90E5C381D2A5BE90044BE8D /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90E5C371D2A5BE90044BE8D /* MapVC.swift */; };
 		A913E5291D2A7D4E0074BAD5 /* ShowAddressCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A913E5271D2A7D4E0074BAD5 /* ShowAddressCustomView.swift */; };
 		A913E52A1D2A7D4E0074BAD5 /* ShowAddressCustomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A913E5281D2A7D4E0074BAD5 /* ShowAddressCustomView.xib */; };
+		A9B5C9F41D352E9A00C0BF2A /* SelectDistanceRestrictionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B5C9F31D352E9A00C0BF2A /* SelectDistanceRestrictionVC.swift */; };
 		A9D35C0D1D26665700D32458 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9D35C0C1D26665700D32458 /* Assets.xcassets */; };
 		A9D35C1B1D26665700D32458 /* LocationTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D35C1A1D26665700D32458 /* LocationTrackerTests.swift */; };
 		A9D35C341D266AFF00D32458 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D35C321D266AFF00D32458 /* AppDelegate.swift */; };
@@ -42,8 +43,9 @@
 		A90E5C331D2A4F260044BE8D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A90E5C351D2A51280044BE8D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A90E5C371D2A5BE90044BE8D /* MapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
-		A913E5271D2A7D4E0074BAD5 /* ShowAddressCustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowAddressCustomView.swift; sourceTree = "<group>"; };
+		A913E5271D2A7D4E0074BAD5 /* ShowAddressCustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowAddressCustomView.swift; sourceTree = "<group>"; usesTabs = 1; };
 		A913E5281D2A7D4E0074BAD5 /* ShowAddressCustomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowAddressCustomView.xib; sourceTree = "<group>"; };
+		A9B5C9F31D352E9A00C0BF2A /* SelectDistanceRestrictionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectDistanceRestrictionVC.swift; sourceTree = "<group>"; };
 		A9D35C021D26665700D32458 /* LocationTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocationTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9D35C0C1D26665700D32458 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Assets.xcassets; sourceTree = "<group>"; };
 		A9D35C161D26665700D32458 /* LocationTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocationTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -179,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				A90E5C371D2A5BE90044BE8D /* MapVC.swift */,
+				A9B5C9F31D352E9A00C0BF2A /* SelectDistanceRestrictionVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 			files = (
 				A913E5291D2A7D4E0074BAD5 /* ShowAddressCustomView.swift in Sources */,
 				4492B47A1D2EA57100B64324 /* Address.swift in Sources */,
+				A9B5C9F41D352E9A00C0BF2A /* SelectDistanceRestrictionVC.swift in Sources */,
 				A9D35C341D266AFF00D32458 /* AppDelegate.swift in Sources */,
 				A90E5C381D2A5BE90044BE8D /* MapVC.swift in Sources */,
 				4492B4781D2EA48500B64324 /* UserLocation.swift in Sources */,

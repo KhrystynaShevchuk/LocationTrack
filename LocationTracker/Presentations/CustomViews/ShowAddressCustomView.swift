@@ -15,6 +15,8 @@ class ShowAddressCustomView: UIView {
     private var view: UIView!
 
     @IBOutlet weak var addressTextView: UITextView!
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var backgroundView: UIView!
     
     // For using CustomView in code
     override init(frame: CGRect) {
@@ -42,7 +44,9 @@ class ShowAddressCustomView: UIView {
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(view)
         
-        setup()
+        addressTextView.clipsToBounds = true
+		iconImageView.image = UIImage(named: "icon")
+        
     }
     
     private func loadViewFromNib(nibName: String) -> UIView {
@@ -51,20 +55,5 @@ class ShowAddressCustomView: UIView {
         let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
         
         return view
-    }
-    
-    private func setup() {
-        addressTextView.layer.cornerRadius = 8.0
-        addressTextView.clipsToBounds = true
-        addressTextView.layer.borderColor = UIColor.greenColor().CGColor
-        addressTextView.layer.borderWidth = 2
-    }
-    
-    func setPopupOnView(yPosition: CGFloat, width: CGFloat) { // set it in VC
-        UIView.animateWithDuration(0.7, delay: 1.0, options: .CurveEaseOut, animations: {
-
-            self.frame = CGRect(x: 0, y: yPosition, width: width, height: 100)
-        }) { finished in
-        }
     }
 }

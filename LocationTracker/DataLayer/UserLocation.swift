@@ -31,6 +31,7 @@ class UserLocation: NSObject {
     
     var coordinates: String = ""
     var distance: Double = 0
+    var distanceRestriction: Double?
     var startUserLocation: CLLocation?
     
     private override init() {
@@ -104,7 +105,7 @@ extension UserLocation: CLLocationManagerDelegate {
         }
         
         distance = location.distanceFromLocation(startUserLocation)
-        if distance > 15 {
+        if distance > distanceRestriction {
             NSNotificationCenter.defaultCenter().postNotificationName(NOTIFICATION_TRACK_DISTANCE, object: self)
             self.startUserLocation = location
         }

@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--MapVC-->
@@ -32,14 +33,91 @@
                             <constraint firstItem="r7K-0s-oVG" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="m7t-pG-aSi"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="CeX-EY-klG"/>
+                    <navigationItem key="navigationItem" id="CeX-EY-klG">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="EGC-AW-5sn">
+                            <connections>
+                                <action selector="selectDistanceRestriction:" destination="BYZ-38-t0r" id="V1v-hx-R1r"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="r7K-0s-oVG" id="Uot-Ig-Env"/>
+                        <segue destination="urS-uf-6x3" kind="show" identifier="selectDistanceSegue" id="gCE-rU-a8J"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1270" y="346"/>
+        </scene>
+        <!--Select Distance RestrictionVC-->
+        <scene sceneID="8Le-Ct-Fxo">
+            <objects>
+                <viewController id="urS-uf-6x3" customClass="SelectDistanceRestrictionVC" customModule="LocationTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2Hg-kt-Yrk"/>
+                        <viewControllerLayoutGuide type="bottom" id="XtF-yO-UJw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="M47-PC-KGc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFJ-RU-7xt">
+                                <rect key="frame" x="505" y="284" width="35" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.11726852392491485" green="0.12316335327319332" blue="0.57927028795811519" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E6x-rN-1oe">
+                                <rect key="frame" x="73" y="284" width="24" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.095772092194549754" green="0.15971485695578855" blue="0.64972594895287961" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="96l-Gd-K6L">
+                                <rect key="frame" x="95" y="280" width="410" height="31"/>
+                                <color key="tintColor" red="0.2046951648373978" green="0.13771792982566292" blue="0.77609620418848169" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="406" id="yYV-9t-oN9"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="distanceSelecterSlider:" destination="urS-uf-6x3" eventType="valueChanged" id="hV1-xM-ogT"/>
+                                </connections>
+                            </slider>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Select restriction of distance from current location" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5oB-us-wkH">
+                                <rect key="frame" x="117" y="110" width="366" height="137"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.083846786115715041" green="0.14429627906513079" blue="0.67612892670157065" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="gFJ-RU-7xt" secondAttribute="trailing" constant="40" id="3Y7-mx-YSv"/>
+                            <constraint firstItem="96l-Gd-K6L" firstAttribute="leading" secondItem="E6x-rN-1oe" secondAttribute="trailing" id="7SF-lL-amX"/>
+                            <constraint firstItem="96l-Gd-K6L" firstAttribute="top" secondItem="5oB-us-wkH" secondAttribute="bottom" constant="33" id="Dvf-AP-62J"/>
+                            <constraint firstItem="5oB-us-wkH" firstAttribute="top" secondItem="2Hg-kt-Yrk" secondAttribute="bottom" constant="46" id="GnN-Qw-rJ7"/>
+                            <constraint firstItem="5oB-us-wkH" firstAttribute="leading" secondItem="M47-PC-KGc" secondAttribute="leadingMargin" constant="97" id="H2v-di-f0n"/>
+                            <constraint firstItem="gFJ-RU-7xt" firstAttribute="leading" secondItem="96l-Gd-K6L" secondAttribute="trailing" constant="2" id="KGu-pb-yYv"/>
+                            <constraint firstItem="gFJ-RU-7xt" firstAttribute="centerY" secondItem="96l-Gd-K6L" secondAttribute="centerY" id="MhD-4S-e06"/>
+                            <constraint firstItem="96l-Gd-K6L" firstAttribute="centerY" secondItem="M47-PC-KGc" secondAttribute="centerY" constant="-5" id="Mtk-Y8-4j9"/>
+                            <constraint firstItem="96l-Gd-K6L" firstAttribute="centerX" secondItem="M47-PC-KGc" secondAttribute="centerX" id="Ycw-CX-FAs"/>
+                            <constraint firstItem="5oB-us-wkH" firstAttribute="centerX" secondItem="M47-PC-KGc" secondAttribute="centerX" id="ajK-cL-Hth"/>
+                            <constraint firstItem="gFJ-RU-7xt" firstAttribute="baseline" secondItem="E6x-rN-1oe" secondAttribute="baseline" id="iiv-97-ym8"/>
+                            <constraint firstItem="E6x-rN-1oe" firstAttribute="leading" secondItem="M47-PC-KGc" secondAttribute="leadingMargin" constant="53" id="vgi-cy-VjI"/>
+                            <constraint firstItem="96l-Gd-K6L" firstAttribute="centerX" secondItem="5oB-us-wkH" secondAttribute="centerX" id="z6Y-jz-2be"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="label_0" destination="E6x-rN-1oe" id="NEa-uV-s82"/>
+                        <outlet property="label_500" destination="gFJ-RU-7xt" id="be6-UE-b1d"/>
+                        <outlet property="slider" destination="96l-Gd-K6L" id="vkG-nO-IBR"/>
+                        <outlet property="textView" destination="5oB-us-wkH" id="n06-Es-pHT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gkj-sq-L71" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1976" y="346"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7fy-5r-rTG">
