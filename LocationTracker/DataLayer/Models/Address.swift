@@ -30,7 +30,7 @@ class Address {
             currentAddress += "COUNTRY :    \(country ?? "")\n"
             currentAddress += "COUNTRY CODE :  \(countryCode ?? "")\n"
             currentAddress += UserLocation.sharedInstance.coordinates
-            currentAddress += "Distance restriction =  \(UserLocation.sharedInstance.distanceRestriction)"
+            currentAddress += "Distance restriction =  \(UserLocation.sharedInstance.distanceRestriction) m"
         } else {
             currentAddress += "It is impossible to detect address\nby selected location."
         }

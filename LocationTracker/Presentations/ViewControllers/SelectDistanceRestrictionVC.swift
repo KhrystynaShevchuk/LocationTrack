@@ -11,32 +11,31 @@ import UIKit
 
 class SelectDistanceRestrictionVC: UIViewController {
     
-    struct defaultsKeys {
-        static let keyForDistance = "distanceRestriction"
-    }
+
     
-    var currentValue = Int()
-    private var lastDistanceRestrictValue = [Double : defaultsKeys]()
+//    var currentValue = Int()
     
-    @IBOutlet weak var slider: UISlider!
+    @IBOutlet weak var sliderSlider: UISlider!
     @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var label_0: UILabel!
-    @IBOutlet weak var label_500: UILabel!
+    @IBOutlet weak var minValueLabel: UILabel!
+    @IBOutlet weak var maxValueLabel: UILabel!
+    @IBOutlet weak var resultsTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let defaults = NSUserDefaults.standardUserDefaults()
+        sliderSlider.value = Float(ReceiveRestrictDistanceFromSlider.sharedInstance.receivedValue)
+        resultsTextField.text = "\(ReceiveRestrictDistanceFromSlider.sharedInstance.receivedValue) m"
         
-        // Store
-        defaults.setObject(currentValue, forKey: "distanceRestriction")
-        
-        // Receive
-        UserLocation.sharedInstance.distanceRestriction = defaults.doubleForKey("distanceRestriction")
-
     }
     
-    @IBAction func distanceSelecterSlider(slider: UISlider) {
-        currentValue = lroundf(slider.value)
+    @IBAction func selectedDistanceSlider(slider: UISlider) {
+        ReceiveRestrictDistanceFromSlider.sharedInstance.setSlidersPoint(slider)
+        resultsTextField.text = "\(ReceiveRestrictDistanceFromSlider.sharedInstance.currentValue) m"
+    }
+    
+    @IBAction func saveButton(sender: UIBarButtonItem) {
+        ReceiveRestrictDistanceFromSlider.sharedInstance.tappedSaveButton(sender)
+        
     }
 }

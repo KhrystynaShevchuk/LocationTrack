@@ -9,7 +9,7 @@
         <!--MapVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MapVC" customModule="LocationTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapVC" id="BYZ-38-t0r" customClass="MapVC" customModule="LocationTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -49,10 +49,10 @@
             </objects>
             <point key="canvasLocation" x="1270" y="346"/>
         </scene>
-        <!--Select Distance RestrictionVC-->
+        <!--Title-->
         <scene sceneID="8Le-Ct-Fxo">
             <objects>
-                <viewController id="urS-uf-6x3" customClass="SelectDistanceRestrictionVC" customModule="LocationTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SelectDistanceRestrictionVC" id="urS-uf-6x3" customClass="SelectDistanceRestrictionVC" customModule="LocationTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2Hg-kt-Yrk"/>
                         <viewControllerLayoutGuide type="bottom" id="XtF-yO-UJw"/>
@@ -73,23 +73,34 @@
                                 <color key="textColor" red="0.095772092194549754" green="0.15971485695578855" blue="0.64972594895287961" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="96l-Gd-K6L">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="250" minValue="0.0" maxValue="500" translatesAutoresizingMaskIntoConstraints="NO" id="96l-Gd-K6L">
                                 <rect key="frame" x="95" y="280" width="410" height="31"/>
                                 <color key="tintColor" red="0.2046951648373978" green="0.13771792982566292" blue="0.77609620418848169" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="406" id="yYV-9t-oN9"/>
                                 </constraints>
                                 <connections>
-                                    <action selector="distanceSelecterSlider:" destination="urS-uf-6x3" eventType="valueChanged" id="hV1-xM-ogT"/>
+                                    <action selector="selectedDistanceSlider:" destination="urS-uf-6x3" eventType="valueChanged" id="IG8-fj-HIM"/>
                                 </connections>
                             </slider>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Select restriction of distance from current location" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5oB-us-wkH">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Select restriction of distance from current location :" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5oB-us-wkH">
                                 <rect key="frame" x="117" y="110" width="366" height="137"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="textColor" red="0.083846786115715041" green="0.14429627906513079" blue="0.67612892670157065" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="250 m" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FyL-rg-myZ">
+                                <rect key="frame" x="252" y="362" width="97" height="30"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="Xlz-sL-RoX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -103,21 +114,31 @@
                             <constraint firstItem="96l-Gd-K6L" firstAttribute="centerY" secondItem="M47-PC-KGc" secondAttribute="centerY" constant="-5" id="Mtk-Y8-4j9"/>
                             <constraint firstItem="96l-Gd-K6L" firstAttribute="centerX" secondItem="M47-PC-KGc" secondAttribute="centerX" id="Ycw-CX-FAs"/>
                             <constraint firstItem="5oB-us-wkH" firstAttribute="centerX" secondItem="M47-PC-KGc" secondAttribute="centerX" id="ajK-cL-Hth"/>
+                            <constraint firstItem="FyL-rg-myZ" firstAttribute="top" secondItem="96l-Gd-K6L" secondAttribute="bottom" constant="52" id="gdK-dh-IfA"/>
                             <constraint firstItem="gFJ-RU-7xt" firstAttribute="baseline" secondItem="E6x-rN-1oe" secondAttribute="baseline" id="iiv-97-ym8"/>
                             <constraint firstItem="E6x-rN-1oe" firstAttribute="leading" secondItem="M47-PC-KGc" secondAttribute="leadingMargin" constant="53" id="vgi-cy-VjI"/>
+                            <constraint firstItem="FyL-rg-myZ" firstAttribute="centerX" secondItem="96l-Gd-K6L" secondAttribute="centerX" id="vvy-I3-JYw"/>
                             <constraint firstItem="96l-Gd-K6L" firstAttribute="centerX" secondItem="5oB-us-wkH" secondAttribute="centerX" id="z6Y-jz-2be"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="EoU-xW-fiZ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="yn1-ZM-rka">
+                            <connections>
+                                <action selector="saveButton:" destination="urS-uf-6x3" id="v6q-d4-hkA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="label_0" destination="E6x-rN-1oe" id="NEa-uV-s82"/>
-                        <outlet property="label_500" destination="gFJ-RU-7xt" id="be6-UE-b1d"/>
-                        <outlet property="slider" destination="96l-Gd-K6L" id="vkG-nO-IBR"/>
+                        <outlet property="maxValueLabel" destination="gFJ-RU-7xt" id="ja3-lh-WIu"/>
+                        <outlet property="minValueLabel" destination="E6x-rN-1oe" id="gQA-lD-W33"/>
+                        <outlet property="resultsTextField" destination="FyL-rg-myZ" id="afr-T5-mCe"/>
+                        <outlet property="sliderSlider" destination="96l-Gd-K6L" id="AST-hc-89h"/>
                         <outlet property="textView" destination="5oB-us-wkH" id="n06-Es-pHT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gkj-sq-L71" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1976" y="346"/>
+            <point key="canvasLocation" x="1993" y="346"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7fy-5r-rTG">

@@ -30,8 +30,8 @@ class UserLocation: NSObject {
     private var locationHandlers = [NSObject : Handlers]()
     
     var coordinates: String = ""
-    var distance: Double = 0
-    var distanceRestriction: Double?
+    var distance = Double()
+    var distanceRestriction: Int = ReceiveRestrictDistanceFromSlider.sharedInstance.receivedValue
     var startUserLocation: CLLocation?
     
     private override init() {
@@ -105,7 +105,7 @@ extension UserLocation: CLLocationManagerDelegate {
         }
         
         distance = location.distanceFromLocation(startUserLocation)
-        if distance > distanceRestriction {
+        if Int(distance) > distanceRestriction {
             NSNotificationCenter.defaultCenter().postNotificationName(NOTIFICATION_TRACK_DISTANCE, object: self)
             self.startUserLocation = location
         }
